@@ -23,6 +23,16 @@ updatePizza({ params, body }, res) {
 })
 .catch(err => res.status(400).json(err));
 },
+
+//delete pizza
+deletePizza({ params }, res) {
+    Pizza.findOneAndDelete({ _id:params.id })
+    .then(dbPizzaData => {
+        if (!dbPizzaData) {
+            res.status(404).json({ message: })
+        }
+    })
+}
 getAllPizza(req, res) {
     Pizza.find({})
     .then(dbPizzaData => res.json(dbPizzaData))
