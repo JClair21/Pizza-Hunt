@@ -55,7 +55,7 @@ const handlePizzaSubmit = event => {
     .catch(err => {
       console.log(err);
     });
-  
+  });
 
   if (!pizzaName || !createdBy || !toppings.length) {
     return;

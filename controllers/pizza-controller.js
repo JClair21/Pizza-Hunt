@@ -1,11 +1,29 @@
 const { Pizza } = require('../models');
-const res = require('express/lib/response');
 
 const pizzaController = {
-    //the functions will go here as methods
+    //get all pizzas
+getAllPizza(req, res) {
+    Pizza.find({})
+    .then(dbPizzaData => res.json(dbPizzaData))
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+    });
+},
 
-createPizza( req, res) {
-    Pizza.create(req.body)
+//get one pizza by id
+getPizzaById({ params }, res) {
+    Pizza.findOne({ _id: req.params.id })
+    .then(dbPizzaData => res.json(dbPizzaData))
+    .catch(err => {
+        console.log(err);
+    res.sendStatus(400);
+    });
+},
+
+//create pizza
+createPizza({ body }, res) {
+    Pizza.create(body)
     .then(dbPizzaData => res.json(dbPizzaData))
     .catch(err => res.json(err));
 },
@@ -28,36 +46,13 @@ deletePizza({ params }, res) {
     Pizza.findOneAndDelete({ _id:params.id })
     .then(dbPizzaData => {
         if (!dbPizzaData) {
-            res.status(404).json({ message:'No Pizza Found!' })
-        }
-    })
-},
-getAllPizza(req, res) {
-    Pizza.find({})
-    .then(dbPizzaData => res.json(dbPizzaData))
-    .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
-    });
-},
-
-//get one pizza by id
-getPizzaById({ params }, res) {
-    Pizza.findOne({ _id: req.params.id })
-    .then(dbPizzaData => {
-        //if no pizza is found, send 404
-        if (!dbPizzaData) {
-            res.status(404).json({message: 'No pizza found with this id!' });
+            res.status(404).json({ message:'No Pizza Found with this id!' });
         return;
-        } 
-        
-             
-      
+        }
+        res.json(dbPizzaData);
     })
-    .catch(() => {
-        res.json({message: "No Pizza Found!"});
-    })
+    .catch(err => res.status(400).json(err));
 },
-}
+};
 
-module.exports =pizzaController;
+module.exports = pizzaController;

@@ -1,12 +1,15 @@
 const router = require('express').Router();
+//Import all og the API routes from /api/index.js (no hneed for index.js though since it's implied)
+
+const apiRoutes = require(' ./api');
+
 const htmlRoutes = require('./html/html-routes');
-const pizzaRoutes = require('./api/pizza-routes')
+
+
+router.use('/api', apiRoutes);
 
 router.use('/', htmlRoutes);
 
-router.use('/api/pizza', pizzaRoutes )
-
-//GET request
 
 
 router.use((req, res) => {
