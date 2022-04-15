@@ -49,20 +49,20 @@ const handlePizzaSubmit = event => {
       method: 'POST',
       headers: {
         Accept: 'application/json'
+      'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(postResponse => {
+      alert('Pizza create successfully!');
+      console.log(postResponse);
     })
     .catch(err => {
       console.log(err);
     });
   });
 
-  if (!pizzaName || !createdBy || !toppings.length) {
-    return;
-  }
-
-  const formData = { pizzaName, createdBy, size, toppings };
-};
 
 $pizzaForm.addEventListener('submit', handlePizzaSubmit);
 $addToppingBtn.addEventListener('click', handleAddTopping);
